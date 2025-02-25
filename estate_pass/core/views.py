@@ -17,5 +17,12 @@ def home(request):
     context={'form':form}
     return render(request,'home.html',context)
 
+def validate(request):
+    result =None
+    if request.method =="POST":
+        value= request.POST.get('code')
+        result = Guest.objects.filter(code = value).first()
+    context ={'result':result}
+    return render(request,'validate.html',context)
 
 
