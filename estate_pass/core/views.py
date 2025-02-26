@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from .models import Guest
+from django.contrib.auth.models import User,auth
 from .forms import GuestForm
 import random
 from django.utils.crypto import get_random_string
@@ -22,7 +24,30 @@ def validate(request):
     if request.method =="POST":
         value= request.POST.get('code')
         result = Guest.objects.filter(code = value).first()
-    context ={'result':result}
-    return render(request,'validate.html',context)
+    return render(request,'validate.html')
+
+
+def register(request):
+    if request.method == 'POST':
+        username= request.POST['username']
+        password1= request.POST['password1']
+        password2= request.POST['password2']
+    
+        if password1 == password2:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, 'Username taken')
+                return redirect('signup')
+            else:
+                try:
+                    user = User.objects.create_user(username=username, password=password1)
+                    user.save()
+                except ValueError:
+                    messages.info(request, f"Flat number is required")
+                    return redirect('signup')
+        else:
+            messages.info(request, 'Password do not match')
+            return redirect('signup') 
+    return render(request, 'register.html')
+    
 
 
