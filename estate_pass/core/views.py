@@ -10,9 +10,10 @@ from django.http import JsonResponse
 def home(request):
     form = GuestForm()
     if request.method == 'POST':
-        form =GuestForm(request.POST)
+        form =GuestForm(request.POST, )
         if form.is_valid():
             instance= form.save(commit=False)
+            instance.flat_no = request.user 
             instance.code= random.randint(10000,99999)
             instance.save()
 
@@ -50,4 +51,20 @@ def register(request):
     return render(request, 'register.html')
     
 
+def loginPage(request):
+    if request.method == 'POST':
+        username= request.POST['username']
+        password= request.POST['password']
+        
+        user= auth.authenticate(username=username, password=password)
 
+        if user is not None:
+            auth.login(request, user)
+            if user.is_superuser or user.is_staff:
+                return redirect('validate')
+            return redirect("/")
+        else:
+            messages.info(request, "Invalid login details")
+            return redirect('login')
+
+    return render(request, 'login.html')
