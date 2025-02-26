@@ -71,3 +71,8 @@ def loginPage(request):
 def logOut(request):
     auth.logout(request)
     return redirect('login')
+
+def allFlat(request):
+    flats = User.objects.filter(is_staff=False)
+    context={'flats':flats}
+    return render(request, 'flats.html', context)

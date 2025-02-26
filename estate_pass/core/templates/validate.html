@@ -7,6 +7,7 @@
 </head>
 <body>
     <a href="{% url 'logout'%}">Logout</a>
+    <a href="{% url 'all'%}">All flat</a>
     <form method="post" action="">
         {% csrf_token %}
         <input type="text" name="code">
