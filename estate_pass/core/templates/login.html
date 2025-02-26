@@ -1,3 +1,6 @@
+<p>Haven't signed up yet?</p> 
+<a href="{% url 'signup' %}">Register</a>
+
 <form method=POST action="{% url 'login'%}">
     {% csrf_token %} 
     <label >Username:</label>

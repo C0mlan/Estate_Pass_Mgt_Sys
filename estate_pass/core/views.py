@@ -4,8 +4,7 @@ from .models import Guest
 from django.contrib.auth.models import User,auth
 from .forms import GuestForm
 import random
-from django.utils.crypto import get_random_string
-from django.http import JsonResponse
+
 
 def home(request):
     form = GuestForm()
@@ -68,3 +67,7 @@ def loginPage(request):
             return redirect('login')
 
     return render(request, 'login.html')
+
+def logOut(request):
+    auth.logout(request)
+    return redirect('login')

@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+
+
+    <a href="{% url 'logout'%}">Logout</a>
     <form method="POST" action="">
         {% csrf_token%}
         {{form.as_p}}
