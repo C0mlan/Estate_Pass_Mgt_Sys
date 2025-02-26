@@ -9,4 +9,6 @@ urlpatterns = [
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logOut, name="logout"),
     path('valid/all/', views.allFlat, name="all"),
+    path('valid/all/<str:pk>', views.aFlat, name="aflat"),
+    
 ]

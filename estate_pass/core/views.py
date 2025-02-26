@@ -76,3 +76,10 @@ def allFlat(request):
     flats = User.objects.filter(is_staff=False)
     context={'flats':flats}
     return render(request, 'flats.html', context)
+
+def aFlat(request, pk):
+    flat= User.objects.get(pk=pk)
+    guests= Guest.objects.filter(flat_no=flat)
+    context={'flat':flat,
+             'guests':guests}
+    return render(request, 'aflat.html', context)

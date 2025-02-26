@@ -9,7 +9,9 @@
     
     {% for flat in flats %}
     <li>
-        {{flat.username}}
+        <a href="{% url 'aflat' flat.id%}"> 
+            {{flat.username}}
+        </a>
     </li>
        
     {% endfor %}
