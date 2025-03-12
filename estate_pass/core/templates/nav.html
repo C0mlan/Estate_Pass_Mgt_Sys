@@ -1,0 +1,15 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'nav.css' %} ">
+{%if request.user.is_staff %}
+<div class="logout2">
+    <a href="{% url 'logout'%}">Logout</a>
+    <a href="{% url 'all'%}">All flats</a>
+</div>
+
+{% else%}
+
+<div class="logout">
+    <a href="{% url 'logout'%}" class="logoutc">Logout</a>
+</div>
+{%endif%}
+

@@ -1,30 +1,74 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import Guest
+from .models import Guest,Passer
 from django.contrib.auth.models import User,auth
+from django.contrib.auth.decorators import login_required
 from .forms import GuestForm
+
 import random
+import string
 
 
+def generate_code():
+    """Generate a random 6-character alphanumeric code."""
+    return ''.join(random.choices(string.digits, k=6))
+
+@login_required(login_url='login')
 def home(request):
-    form = GuestForm()
-    if request.method == 'POST':
-        form =GuestForm(request.POST, )
-        if form.is_valid():
-            instance= form.save(commit=False)
-            instance.flat_no = request.user 
-            instance.code= random.randint(10000,99999)
-            instance.save()
+    guest_1 = None
+    code_1 = None
+    
+    if 'guest_id' in request.session:
+        try:
+            guest_1 = Guest.objects.get(id=request.session.pop('guest_id'))
+            passer = Passer.objects.get(user=guest_1) 
+            code_1 = passer.code
+        except Guest.DoesNotExist:
+            guest_1 = None
+        except Passer.DoesNotExist:
+            code_1 = None
 
-    context={'form':form}
-    return render(request,'home.html',context)
+    form = GuestForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        guest = form.save(commit=False)
+        guest.flat_no = request.user
+        guest.save()
 
+        
+        passer = Passer.objects.create(user=guest, code=generate_code())
+
+      
+        request.session['guest_id'] = guest.id
+
+        return redirect('home')
+
+    context = {
+        'form': form,
+        'guest_1': guest_1,
+        'code_1': code_1
+    }
+    return render(request, 'home.html',context)
+
+
+
+@login_required(login_url='login')
 def validate(request):
-    result =None
-    if request.method =="POST":
-        value= request.POST.get('code')
-        result = Guest.objects.filter(code = value).first()
-    return render(request,'validate.html')
+    guest = None
+    error_message = None
+    if request.method == "POST":
+        value = request.POST.get('code')
+
+        try:
+            passer = Passer.objects.get(code=value) 
+            guest = passer.user 
+        except Passer.DoesNotExist:
+            error_message = "Code is invalid."
+
+    context = {
+        "guest": guest,
+        "error_message": error_message
+    }
+    return render(request,'validate.html', context)
 
 
 def register(request):
@@ -49,17 +93,17 @@ def register(request):
             return redirect('signup') 
     return render(request, 'register.html')
     
-
+#The login func.
 def loginPage(request):
     if request.method == 'POST':
         username= request.POST['username']
         password= request.POST['password']
         
         user= auth.authenticate(username=username, password=password)
-
+        
         if user is not None:
             auth.login(request, user)
-            if user.is_superuser or user.is_staff:
+            if user.is_superuser or user.is_staff: #Redirects superuser or staff to validation page
                 return redirect('validate')
             return redirect("/")
         else:
@@ -67,16 +111,21 @@ def loginPage(request):
             return redirect('login')
 
     return render(request, 'login.html')
-
+#The logout func.
 def logOut(request):
     auth.logout(request)
     return redirect('login')
 
+
+#Retrieves the username of users that are non-staff
+@login_required(login_url='login')
 def allFlat(request):
     flats = User.objects.filter(is_staff=False)
     context={'flats':flats}
     return render(request, 'flats.html', context)
 
+#Retrieves a flat with the pk
+@login_required(login_url='login')
 def aFlat(request, pk):
     flat= User.objects.get(pk=pk)
     guests= Guest.objects.filter(flat_no=flat)

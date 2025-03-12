@@ -1,24 +1,32 @@
+{% extends 'main.html' %}
+{% block content %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
 <body>
-  
-    <li>
-        {{flat.username}}
 
+    <li>{{ flat.username }}</li>
+
+    <!-- Table for Guests -->
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Purpose</th>
+        </tr>
         {% for guest in guests %}
-        <li>
-            <strong>Name:</strong> {{ guest.name }} <br>
-            <strong>Purpose:</strong> {{ guest.purpose }} <br>
-            <strong>Code:</strong> {{ guest.code }}
-        </li>
-  
-    </li>
-  
-    {% endfor %}
+        <tr>
+            <td>{{ guest.name }}</td>
+            <td>{{ guest.purpose }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
 </body>
 </html>

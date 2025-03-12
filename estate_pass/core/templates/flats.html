@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Flats List</title>
+    <link rel="stylesheet" href="{% static 'flats.css' %}">
 </head>
 <body>
-    
-    {% for flat in flats %}
-    <li>
-        <a href="{% url 'aflat' flat.id%}"> 
-            {{flat.username}}
-        </a>
-    </li>
-       
-    {% endfor %}
-    
+
+    <!-- Logout and Validate Buttons -->
+    <div class="logout">
+        <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'validate' %}">Validate</a>
+    </div>
+
+    <!-- Flats List -->
+    <ul class="flat-list">
+        {% for flat in flats %}
+            <li>
+                <a href="{% url 'aflat' flat.id %}" class="flat-button">
+                    {{ flat.username }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
 </body>
 </html>

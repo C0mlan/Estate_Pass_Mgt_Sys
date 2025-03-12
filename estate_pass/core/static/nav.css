@@ -1,0 +1,24 @@
+/* Logout Section */
+.logout, .logout2 {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+}
+
+/* Logout Button */
+.logoutc, .logout2 a {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color:  #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.logout2 a:first-child {
+    margin-right: 15px; /* Space between Logout and All flat */
+}
+
+

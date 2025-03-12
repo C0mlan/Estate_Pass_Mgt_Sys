@@ -1,0 +1,60 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Logout & Validate Buttons */
+.logout {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.logout a {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.logout a:hover {
+    background-color: #0056b3;
+}
+
+/* Flats List */
+.flat-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Button-style Links */
+.flat-list li {
+    margin: 10px 0;
+}
+
+.flat-button {
+    display: inline-block;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.flat-button:hover {
+    background-color: #218838;
+}
