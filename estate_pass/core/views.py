@@ -85,6 +85,7 @@ def register(request):
                 try:
                     user = User.objects.create_user(username=username, password=password1)
                     user.save()
+                    return redirect('login')
                 except ValueError:
                     messages.info(request, f"Flat number is required")
                     return redirect('signup')
@@ -132,3 +133,6 @@ def aFlat(request, pk):
     context={'flat':flat,
              'guests':guests}
     return render(request, 'aflat.html', context)
+
+
+

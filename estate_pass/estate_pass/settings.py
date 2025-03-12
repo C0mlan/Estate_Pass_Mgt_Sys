@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
+
 
 
 
@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
     "core.apps.CoreConfig",
+
    
 
 
@@ -130,7 +133,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 STATICFILES_DIRS= [
-     os.path.join(BASE_DIR, "estate_pass/static"),
+ BASE_DIR, "core/static",
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
